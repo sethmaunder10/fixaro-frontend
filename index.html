@@ -1,21 +1,61 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Fixaro - AI Repair Assistant</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f9f9f9;
+    }
+    input, textarea, button {
+      display: block;
+      margin-bottom: 15px;
+      padding: 10px;
+      width: 100%;
+      max-width: 400px;
+    }
+    #response {
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 15px;
+      max-width: 600px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Fixaro</h1>
-  <p>Your AI-powered repair assistant. Upload a photo or enter product details to start your diagnosis.</p>
-  <form action="/repair" method="POST" enctype="multipart/form-data">
-    <label>Upload Image: <input type="file" name="image" /></label><br />
-    <label>Product Make: <input type="text" name="make" /></label><br />
-    <label>Product Model: <input type="text" name="model" /></label><br />
-    <label>Describe the Problem: <textarea name="issue"></textarea></label><br />
-    <button type="submit">Start Repair</button>
-  </form>
-  <p>Pay per repair: £3.49<br />Add avatar walkthrough: £0.99 (optional)</p>
+  <h1>Fixaro - AI Repair Assistant</h1>
+  <input type="text" id="make" placeholder="Product Make (e.g., Samsung)">
+  <input type="text" id="model" placeholder="Product Model (e.g., TV123)">
+  <textarea id="issue" placeholder="Describe the issue (e.g., screen won't turn on)"></textarea>
+  <button onclick="sendRepairRequest()">Fix It</button>
+
+  <h2>Repair Instructions:</h2>
+  <div id="response">You'll see your repair steps here...</div>
+
+  <script>
+    async function sendRepairRequest() {
+      const make = document.getElementById("make").value;
+      const model = document.getElementById("model").value;
+      const issue = document.getElementById("issue").value;
+
+      const responseBox = document.getElementById("response");
+      responseBox.innerHTML = "Getting repair info...";
+
+      try {
+        const res = await fetch("https://fixaro-backend.onrender.com", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ make, model, issue })
+        });
+
+        const data = await res.json();
+        responseBox.innerHTML = data.steps ? data.steps : "No steps returned.";
+      } catch (err) {
+        responseBox.innerHTML = "Something went wrong. Please try again.";
+        console.error(err);
+      }
+    }
+  </script>
 </body>
 </html>
