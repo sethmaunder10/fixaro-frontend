@@ -1,0 +1,21 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fixaro - AI Repair Assistant</title>
+</head>
+<body>
+  <h1>Fixaro</h1>
+  <p>Your AI-powered repair assistant. Upload a photo or enter product details to start your diagnosis.</p>
+  <form action="/repair" method="POST" enctype="multipart/form-data">
+    <label>Upload Image: <input type="file" name="image" /></label><br />
+    <label>Product Make: <input type="text" name="make" /></label><br />
+    <label>Product Model: <input type="text" name="model" /></label><br />
+    <label>Describe the Problem: <textarea name="issue"></textarea></label><br />
+    <button type="submit">Start Repair</button>
+  </form>
+  <p>Pay per repair: £3.49<br />Add avatar walkthrough: £0.99 (optional)</p>
+</body>
+</html>
